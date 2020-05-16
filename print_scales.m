@@ -6,13 +6,13 @@ x_sup = interval(2);
 x = x_inf:0.05:x_sup;
 y = f(x);
 
-figure(1)
+figure(4)
 plot(x, y, 'r -');
 title("Normal scale graph")
 xlabel('x')
 ylabel(f_title)
 
-figure(2)
+figure(5)
 semilogy(x, y, 'r -')
 grid on
 title("Logarithmic scale graph")

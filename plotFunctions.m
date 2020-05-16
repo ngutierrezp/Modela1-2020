@@ -6,8 +6,8 @@
 
 function [] = plotFunctions( func1, func2 , vectorX , typePlot ,titles )
     
-
-    y1 = func1(vectorX);
+    vectorX
+    y1 = func1(vectorX)
     y2 = func2(vectorX);
     
     figure(1)

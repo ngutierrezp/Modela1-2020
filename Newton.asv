@@ -4,18 +4,17 @@ function [ Solution ] = Newton( func, x_0, tol, maxIt )
      
     if(maxIt == 0)
         disp("Maximum iterations reached");
-        disp("Could not find an answer");
         Solution = x_0;
         return;
     end
-    Y = x_0 - polyval(func, x_0)/df(x_0);
-    err = abs((Y-x_0)/x_0);
-    sprintf("iterations: %d, solution: %f" , maxIt, Y)
+    Y = x_0 - polyval(func, x_0(end))/df(x_0);
+    err = abs((Y-x_0(end))/x_0(end));
+    sprintf("iterations: %d, solution: %f, error: %f" , maxIt, Y ,err)
     if(err < tol)
         disp("Algorithm has reached a solution by convergence")
-        Solution = Y;
+        Solution = [x_0 Y];
         return
     end
-    Solution = Newton( func, Y, tol, maxIt - 1);
+    Solution = [ x_0 , Newton( func, Y, tol, maxIt - 1)];
 end
 
