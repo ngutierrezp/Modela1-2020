@@ -36,12 +36,13 @@ while bool
 end
 bool = true;
 while bool
-    iter = str2num(input('Ingrese numero máximo de iteraciones: ', 's'));
-    if(isempty(iter) || iter <= 0)
-        disp("Ingrese un valor numérico entero")
+    iter = str2num(input('Ingrese la tolerancia del error: ', 's'));
+    if(isna(iter))
+        disp("Ingrese un valor numérico")
     else
         bool = false;
     end
 end
-res = Newton(poly, x_0, tol, iter);
+
+res = Newton(poly, x_0, tol, 20);
 sprintf("The solution is: %f", res);
