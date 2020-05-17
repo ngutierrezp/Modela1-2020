@@ -4,7 +4,6 @@ function [ Solution ] = Newton( func, x_0, tol, maxIt )
      
     if(maxIt == 0)
         disp("Maximum iterations reached");
-        disp("Could not find an answer");
         Solution = x_0;
         return;
     end
