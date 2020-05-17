@@ -6,8 +6,7 @@
 
 function [] = plotFunctions( func1, func2 , vectorX , typePlot ,titles )
     
-    vectorX
-    y1 = func1(vectorX)
+    y1 = func1(vectorX);
     y2 = func2(vectorX);
     
     figure(1)
@@ -17,7 +16,7 @@ function [] = plotFunctions( func1, func2 , vectorX , typePlot ,titles )
     xlabel("x")
     ylabel("y")
     legend(titles(1))
-    title("Plot of function")
+    title("Plot of " + titles(1) )
     
     
     figure(2)
@@ -26,7 +25,7 @@ function [] = plotFunctions( func1, func2 , vectorX , typePlot ,titles )
     legend(titles(2))
     xlabel("x")
     ylabel("y")
-    title("Plot of function")
+    title("Plot of " + titles(2))
     
     figure(3)
     
@@ -35,7 +34,7 @@ function [] = plotFunctions( func1, func2 , vectorX , typePlot ,titles )
     xlabel("x")
     ylabel("y")
     
-    title("Plot of functions")
+    title("Plot of " + titles(1) + " and " + titles(2))
 end
 
 

@@ -1,3 +1,11 @@
+%################################################
+%#                  Primera Parte               #
+%################################################
+
+disp("#################################################")
+disp("Primera parte")
+
+
 bool = true;
 while bool
     disp("Ingresa una función como polinomio, cada numero debe ir separado por espacio")
@@ -21,3 +29,23 @@ x_0 = 7;
 
 res = Newton(poly, x_0, tol, 20);
 sprintf("The solution is: %f", res);
+
+disp("[OK]")
+
+
+%################################################
+%#                  Segunda Parte               #
+%################################################
+
+disp("#################################################")
+disp("Segunda parte")
+
+sqrtActivity()
+
+disp("[OK]")
+
+
+
+
+
+
