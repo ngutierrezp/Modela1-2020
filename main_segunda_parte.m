@@ -2,13 +2,14 @@
 %#                  Primera Parte               #
 %################################################
 
+slCharacterEncoding('UTF-8')
 disp("#################################################")
 disp("Primera parte")
 
 
 bool = true;
 while bool
-    disp("Ingrese una funciï¿½n como polinomio, cada numero debe ir separado por espacio")
+    disp("Ingrese una función como polinomio, cada numero debe ir separado por espacio")
     textVector = input('ingresa un vector: ','s');
     lengthUserVector = length(split(textVector,' '));
 
@@ -19,7 +20,7 @@ while bool
     poly = num(~isnan(num)); % remove nan values
 
      if length(str) > length(poly)
-         disp("Por favor ingrese un vector numerico valido separado por espacios")
+         disp("Por favor ingrese un vector numérico válido separado por espacios")
      else
          bool = false;
      end
@@ -28,7 +29,7 @@ bool = true;
 while bool
     x_0 = str2double(input('Ingrese el valor inicial del algoritmo: ', 's'));
     if(isnan(x_0))
-        disp("Ingrese un valor numï¿½rico")
+        disp("Ingrese un valor numérico")
     else
         bool = false;
     end
@@ -37,23 +38,25 @@ bool = true;
 while bool
     tol = str2double(input('Ingrese la tolerancia del error: ', 's'));
     if(isnan(tol))
-        disp("Ingrese un valor numï¿½rico")
+        disp("Ingrese un valor numérico")
     else
         bool = false;
     end
 end
 bool = true;
 while bool
-    iter = str2num(input('Ingrese numero mï¿½ximo de iteraciones: ', 's'));
+    iter = str2num(input('Ingrese numero máximo de iteraciones: ', 's'));
     if(isempty(iter) || iter <= 0)
-        disp("Ingrese un valor numï¿½rico entero")
+        disp("Ingrese un valor numérico entero")
     else
         bool = false;
     end
 end
 res = Newton(poly, x_0, tol, iter);
-sprintf("The solution is: %f", res);
 
+disp("La solución es:");
+
+disp(res)
 
 disp("[OK]")
 
