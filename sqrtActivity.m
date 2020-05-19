@@ -30,7 +30,7 @@ function [] = sqrtActivity()
 
     mins = mink(num,4);
 
-    vector_logical_min = mins <= 0;
+    vector_logical_min = mins < 0;
 
    if sum(vector_logical_min) > 0
        disp("Los valores ingresados no pueden ser negativos")
