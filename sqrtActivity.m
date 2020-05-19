@@ -1,8 +1,8 @@
 
 function [] = sqrtActivity()
     bool = true;
-    disp("Ingresa un vector numerico a continuación, cada numero debe ir separado por espacio")
-    disp("Debe ingresar mas de 4 elementos")
+    disp("Ingresa un vector numérico a continuación, cada numero debe ir separado por espacio")
+    disp("Debe ingresar más de 4 elementos")
 
     while(bool)
         
@@ -17,9 +17,9 @@ function [] = sqrtActivity()
         num = num(~isnan(num)); % remove nan values
         
         if length(str) > length(num)
-            disp("Por favor ingrese un vector numerico valido separado por espacios")
+            disp("Por favor ingrese un vector numérico valido separado por espacios")
         elseif length(num) < 4
-            disp("Por favor ingrese 4 o más numeros")        
+            disp("Por favor ingrese 4 o más números")        
         else
             bool = false;
         end
@@ -30,7 +30,7 @@ function [] = sqrtActivity()
 
     mins = mink(num,4);
 
-    vector_logical_min = mins >= 0;
+    vector_logical_min = mins <= 0;
 
    if sum(vector_logical_min) > 0
        disp("Los valores ingresados no pueden ser negativos")
