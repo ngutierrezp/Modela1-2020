@@ -8,10 +8,9 @@ function [ Solution ] = Newton( func, x_0, tol, maxIt )
         return;
     end
     Y = x_0 - polyval(func, x_0)/df(x_0);
-    err = abs((Y-x_0)/x_0);
     sprintf("Iteraciones restantes: %d, Actual: %f" , maxIt, Y)
     if(err < tol)
-        disp("El algoritmo converge a una solución")
+        disp("El algoritmo converge a una soluciÃ³n")
         Solution = Y;
         return;
     end
