@@ -3,14 +3,15 @@ function [ Solution ] = Newton( func, x_0, tol, maxIt )
     df = @(x) ((polyval(func, x+delta) - polyval(func, x))/delta);
      
     if(maxIt < 1)
-        disp("Iteraciones máximas superadas");
+        disp("WARN: Iteraciones máximas superadas");
         Solution = x_0;
         return;
     end
     Y = x_0 - polyval(func, x_0)/df(x_0);
-    sprintf("Iteraciones restantes: %d, Actual: %f" , maxIt, Y)
+    err = abs((Y-x_0)/Y);
+    %sprintf("INFO: Iteraciones restantes: %d, Actual: %f" , maxIt, Y)
     if(err < tol)
-        disp("El algoritmo converge a una soluciÃ³n")
+        disp("INFO: El algoritmo converge a una soluciÃ³n") 
         Solution = Y;
         return;
     end
