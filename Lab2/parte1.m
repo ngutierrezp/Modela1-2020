@@ -66,7 +66,20 @@ step(Hc_s3_num,Hc_s3_den);
 
 
 
+%############
+% Tabla comparativa
 
+
+[z1a,p1a,k1a]=tf2zp(H_s1_num,H_s1_den);
+[z1c,p1c,k1c]=tf2zp(Hc_s1_num,Hc_s1_den);
+[z2a,p2a,k2a]=tf2zp(H_s2_num,H_s2_den);
+[z2c,p2c,k2c]=tf2zp(Hc_s2_num,Hc_s2_den);
+[z3a,p3a,k3a]=tf2zp(H_s3_num,H_s3_den);
+[z3c,p3c,k3c]=tf2zp(Hc_s3_num,Hc_s3_den);
+
+
+
+%table_comp = table(nombres,ceros,polos,ganancias);
 
 
 
