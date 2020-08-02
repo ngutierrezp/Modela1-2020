@@ -9,7 +9,7 @@ disp("Primera parte")
 
 bool = true;
 while bool
-    disp("Ingrese una función como polinomio, cada número debe ir separado por espacio")
+    disp("Ingrese una funci�n como polinomio, cada número debe ir separado por espacio")
     textVector = input('ingresa un vector: ','s');
     lengthUserVector = length(split(textVector,' '));
 
