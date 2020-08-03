@@ -77,8 +77,15 @@ step(Hc_s3_num,Hc_s3_den);
 [z3a,p3a,k3a]=tf2zp(H_s3_num,H_s3_den);
 [z3c,p3c,k3c]=tf2zp(Hc_s3_num,Hc_s3_den);
 
-
-
+C = {'funcion','ceros','polos','ganancia';
+    'fun 1 Abierto',z1a,p1a,k1a;
+    'fun 1 Cerrado',z1c,p1c,k1c;
+    'fun 2 Abierto',z2a,p2a,k2a;
+    'fun 2 Cerrado',z2c,p2c,k2c;
+    'fun 3 Abierto',z3a,p3a,k3a;
+    'fun 3 Cerrado',z3c,p3c,k3c;
+    };
+ds = cell2dataset(C);
 %table_comp = table(nombres,ceros,polos,ganancias);
 
 
