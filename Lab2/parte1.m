@@ -177,6 +177,13 @@ C = {'funcion','ceros','polos','ganancia','Tiempo de estabilización';
     'fun 3 Abierto',z3a,p3a,k3a,settingTimeA3;
     'fun 3 Cerrado',z3c,p3c,k3c,settingTimeC3;
     };
+
+% Tabla resumen
+
+% Debido a distintas versiones de R, puede que no se encuentre
+% cell2dataset, por lo que se debe utilizar el equivalente cell2table
+% ds = cell2table(C);
+
 ds = cell2dataset(C);
 
 
