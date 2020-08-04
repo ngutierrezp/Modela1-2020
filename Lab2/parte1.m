@@ -60,8 +60,8 @@ H_s3_den = [3 4 -3 4];
 figure()
 step(H_s1_num,H_s1_den);
 title('Respuesta de la función 1 de lazo abierto en el tiempo')
-xlabel('Tiempo (segundos)')
-xlabel('Amplitud')
+xlabel('Tiempo')
+ylabel('Amplitud')
 grid on;
 
 
@@ -70,8 +70,8 @@ grid on;
 figure()
 step(Hc_s1_num,Hc_s1_den);
 title('Respuesta de la función 1 de lazo cerrado en el tiempo')
-xlabel('Tiempo (segundos)')
-xlabel('Amplitud')
+xlabel('Tiempo')
+ylabel('Amplitud')
 grid on;
 
 
@@ -80,8 +80,8 @@ grid on;
 figure()
 step(H_s2_num,H_s2_den);
 title('Respuesta de la función 2 de lazo abierto en el tiempo')
-xlabel('Tiempo (segundos)')
-xlabel('Amplitud')
+xlabel('Tiempo')
+ylabel('Amplitud')
 grid on;
 
 
@@ -90,8 +90,8 @@ grid on;
 figure()
 step(Hc_s2_num,Hc_s2_den);
 title('Respuesta de la función 2 de lazo cerrado en el tiempo')
-xlabel('Tiempo (segundos)')
-xlabel('Amplitud')
+xlabel('Tiempo')
+ylabel('Amplitud')
 grid on;
 
 %#############
@@ -99,8 +99,8 @@ grid on;
 figure()
 step(H_s3_num,H_s3_den);
 title('Respuesta de la función 3 de lazo abierto en el tiempo')
-xlabel('Tiempo (segundos)')
-xlabel('Amplitud')
+xlabel('Tiempo')
+ylabel('Amplitud')
 grid on;
 
 
@@ -109,8 +109,8 @@ grid on;
 figure()
 step(Hc_s3_num,Hc_s3_den);
 title('Respuesta de la función 3 de lazo cerrado en el tiempo')
-xlabel('Tiempo (segundos)')
-xlabel('Amplitud')
+xlabel('Tiempo')
+ylabel('Amplitud')
 grid on;
 
 
