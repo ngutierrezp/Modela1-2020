@@ -187,6 +187,47 @@ C = {'funcion','ceros','polos','ganancia','Tiempo de estabilización';
 ds = cell2dataset(C);
 
 
+% PEP1
+
+A = (51/(17*sqrt(186)));
+A2 = 2/(sqrt(186));
+B = (2/17);
+w = sqrt(186)/17;
+
+f = @(x) exp(-x./17).*(A.*sin(x.*w) - B.*(cos(x.*w)));
+
+f2 = @(x) exp(-x./17).*(A2.*sin(x.*w));
+
+x = (0:0.1:100);
+
+y = f2(x);
+
+figure(1)
+
+plot(x,y);
+
+xlabel("Tiempo");
+ylabel("Ganancia");
+title("Respuesta a entrada impulso");
+
+figure(2)
+
+y2 = f(x);
+xlabel("Tiempo");
+ylabel("Ganancia");
+title("Respuesta a entrada impulso");
+plot(x,y2);
+
+figure(3)
+
+F1 = fvtool([0 0 2], [17 2 11], 'polezero');
+F1.CurrentAxes.Title.String = 'Gráfica polos y ceros';
+F1.CurrentAxes.XLabel.String = 'Parte Real';
+F1.CurrentAxes.YLabel.String = 'Parte Imaginaria';
+F1.Legend = 'on';
+F1.CurrentAxes.Legend.String = {'Ceros','Polos'};
+
+
 
 
 
