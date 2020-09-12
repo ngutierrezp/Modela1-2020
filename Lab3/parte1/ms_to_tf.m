@@ -1,51 +1,65 @@
-% Esta función recibe una matriz y un vector Y de la forma:
+% Esta función recibe 4 matrices y un vector Y de la forma:
 
 
-    %           A           B
-    %       *-------*       | 
-    %       |       |       |
-    %       v       v       v
+    %           A            B
+    %       *-------*        | 
+    %       |       |        |
+    %       v       v        v
     
-    %  |  -c/b    -a/b    a/b   |
-    %  |   a/b    -c/b     0    |
+    %  |  -c/b    -a/b  | | a/b   |
+    %  |   a/b    -c/b  | |  0    |
 
+    % C = [x1 x2]
     
-    
-    % Y = [x1 x2]
+    % D = 0
     
 % Esta función lleva de un modelo de estados a funciones de transferencia
 % solo para funciones de la forma:
 
-% H(s)=         a/b
-%            --------
-%             s + c/b
+%                  H(s)
+%            ---------------
+%             1 + H(s)*G(s)
 
-function [num1,den1,num2,den2] = ms_to_tf(matrix,vectorY)
+function [num,den] = ms_to_tf(A,B,C,D)
 
+    % Se debe tener en cuenta que las variables de estados estan
+    % representadas de las forma:
+    
+    %  X' = A*X + B*U
+    %  Y = C*X + D*U
+    
+    % entonces: 
+    %
+    
+    % sX = A*X+B*U
+    % sX - AX  = B*U
+    % (sI - A)X  = B*U
+    % X = (sI - A)^-1 * B*U 
+    
+    % Luego :
+    
+    % Y = C * ((sI - A)^-1 * B*U ) + D*U
+    % Y / U = (sI - A)^-1 * B + D
+    % Hs = (sI - A)^-1 * B + D
+    
+    
+    % se define una varible s
+    syms s;
+    
+    % Matriz identidad
+    I = eye(2);
+    
+    
+    x = s*I - A;
+    
+    x = inv(x) * B;
+    
+    Hs = C * x + D;
+    
+    [num,den]= numden(Hs);
 
-    matrixA = matrix(:,[1,2]);
+     num = sym2poly(num);
+     den = sym2poly(den);
     
-    % se puede notar que la matriz de entrada tiene los valores de las
-    % funciones de transferencia de forma implicita por lo que :
-    
-    VectorHS = matrixA(1,:);
-    VectorHS = -VectorHS*sum(vectorY);
-    
-    num1 = [0 VectorHS(2)];
-    den1 = [1 VectorHS(1)];
-    
-    
-    
-    
-    VectorGS = matrixA(2,:);
-    VectorGS = [1 -1].* VectorGS*sum(vectorY);
-    
-    
-    num2 = [0 VectorGS(1)];
-    den2 = [1 VectorGS(2)];
-    
-    
-
-
 end
 
