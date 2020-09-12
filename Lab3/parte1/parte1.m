@@ -1,15 +1,3 @@
-%################################################
-%#           Lab 3: Primera Parte               #
-%################################################
-clear
-clc
-%slCharacterEncoding('UTF-8')
-disp("#################")
-disp("Primera parte")
-disp("#################")
-
-
-
 % Funcion de transferencia a modelo de estados
 
 
@@ -35,26 +23,15 @@ f2den= [1 1];
 
 % transformandola a modelo de estados
 
-[M,V] = tf_to_ms(f1num,f1den,f2num,f2den)
+[A,B,C,D] = tf_to_ms(f1num,f1den,f2num,f2den)
 
 
 % Transformando matriz de estados a funcion de transferencia.
 
-[n1,d1,n2,d2] = ms_to_tf(M,V);
-
-tf(n1,d1)
-tf(n2,d2)
+[num,den] = ms_to_tf(A,B,C,D);
 
 
-
-
-
-
-
-
-
-
-
+tf(num,den)
 
 
 

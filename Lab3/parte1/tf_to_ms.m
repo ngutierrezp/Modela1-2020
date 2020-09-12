@@ -18,7 +18,7 @@
 %                         *-------*
 
 
-function [matrix, vectorY] =  tf_to_ms(num1,den1,num2,den2)
+function [A,B,C,D] =  tf_to_ms(num1,den1,num2,den2)
 
     
     if num1(1) ~= 0 ||  num2(1) ~= 0
@@ -94,12 +94,18 @@ function [matrix, vectorY] =  tf_to_ms(num1,den1,num2,den2)
     % con esta matriz se puede expresar de la forma: 
     % X'i = A*xi + B*u
     
-    matrix = [vectorX_1;vectorX_2];
-    
+    A = [vectorX_1;vectorX_2];
+    B = A(:,3);
+    A = A(:,[1,2]);
     
     % Del diagrama se puede ver que el valor de Y es el mismo que el de x1
     % por lo tanto el vector Y sera [1 0]
     
-    vectorY = [1 0];
+    C = [1 0];
+    
+    % El vector D siempre es [0,0] debido a que no existen componentes U en
+    % x2
+    
+    D = 0;
 
 end
