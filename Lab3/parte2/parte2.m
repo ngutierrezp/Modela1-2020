@@ -92,15 +92,17 @@ r2 = 1/16;
 sys = ss(A,B,C,D, 'StateName', {'x1' 'x2'});
 
 % Se crea un vector de tiempo a 5 segundos
-t = (0:0.05:10)';
-% Se crea una función step
+t = (0:0.05:5)';
+% Se crea una función de entrada
 u = ones(1, length(t));
+% O una función de entrada alternativa
+% u = 5 + 5*sin(t);
 
 % Condiciones iniciales para los niveles
 % Se fija con un valor mayor a 0 para que no llegue a valores negativos
 % demasiado rápido
 % x_0 = [ nivel x1, nivel x2 ]
-x_0 = [4, 6];
+x_0 = [4, 8];
 
 % Se utiliza la función lsim en vez de step, para poder ingresar
 % condiciones iniciales
