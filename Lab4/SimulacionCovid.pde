@@ -2,7 +2,8 @@ Individuos simuPeople;
 
 void setup() {
   size(1024,1024);
-  simuPeople = new Individuos(300);
+  int typeWall = 0;
+  simuPeople = new Individuos(300,typeWall);
 }
 
 void draw() {
@@ -15,38 +16,45 @@ public class Individuo{
   PVector position;
   PVector velocity;
   PVector acceleration;
-  float ProbSick = 0.1;
   float r;
   int radio = 10;
-  boolean sick;
+  float variance = 0.5;
+  float mean = 0;
+  float angle = random(0,TWO_PI);
+  int s = 1;
+  float vectorX;
+  float vectorY;
   
   
   // Creando el constructor:
-  Individuo(float posX, float posY){
+  Individuo(float posX, float posY, int typeWall){
     position = new PVector(posX, posY);
-    
-    // El vector de velocidad para este caso es cte.
-    // pero se define su valor inicial el cual no cambiará
-    velocity = PVector.random2D();
-    
+   
     // Para el caso de la aceleración esta, no existe por el momento
     // debido a que no existen fuerzas que actuen en los individuos.
     acceleration = new PVector(0, 0);
     
-    sick = false;
-    // Para definir si un paciente esta enfermo o no, se emplea una variable r.    
-    r = random(0,1);
     
-    if (r <= ProbSick){
-      sick = true;
-    } 
-  }
-  
-  
-  void run(){
-    update();
-    borders();
-    render();
+    
+    // Diferentes formas de moverse:
+    
+    // Random Gausiano
+    if(typeWall == 1){
+      // Recordemolos que un distribución Normal es varianza*Z + media
+      vectorX = variance * randomGaussian() + mean;
+      vectorY = variance * randomGaussian() + mean;
+    
+    }
+    // Alternativa 
+    else{
+      
+      vectorX = s * cos(angle);
+      vectorY = s * cos(angle);
+    }
+    
+    //Dependiendo de la signación de velocidad que se haga, sera el movimiento que se tenga 
+    velocity = new PVector(vectorX, vectorY);
+
   }
   
   
@@ -62,46 +70,99 @@ public class Individuo{
     if (position.y > height+radio) position.y = -radio;
   }
   
+}
+
+
+public class healthy extends Individuo{
+
+  
+  healthy(float posX,float posY,int typeWall){
+    
+    super(posX,posY, typeWall);
+    
+  
+  }
+    void render() {
+    stroke(100);
+    circle(position.x, position.y, radio);
+    // Para sano se pone un color verde
+    fill(50, 205,50);
+  }
+  
+    void run(){
+     update();
+     borders();
+     render();
+     
+  }
+
+}
+
+
+
+public class sicky extends Individuo{
+
+  sicky(float posX,float posY, int typeWall){
+    
+    super(posX,posY,typeWall);
+  
+  }
+   
   void render() {
     stroke(100);
     circle(position.x, position.y, radio);
-    
-    // Si esta enfermo se cambia el color a rojo
-    if(sick){
-      fill(203, 50,52);
-    }
-    else{
-      fill(50, 205,50);
-    }
-    
+    // Para enfermos se pone un rojo
+    fill(203, 50,52); 
   }
   
+  void run(){
+     update();
+     borders();
+     render();
+  }
 }
+  
+
 
 
 
 
 public class Individuos{
   
-  ArrayList<Individuo> People;
+  ArrayList<sicky> PeopleSicky;
+  ArrayList<healthy> PeopleHealthy;
+  float ProbSick = 0.1;
   
+  Individuos(int sizePeople,int typeWall){
   
-  Individuos(int sizePeople){
-  
-    People = new ArrayList<Individuo>();
+    PeopleSicky = new ArrayList<sicky>();
+    PeopleHealthy = new ArrayList<healthy>();
     
     for (int i = 0; i < sizePeople; i++) {
+      
       float posX = random(0,1024);
       float posY = random(0,1024);
-      People.add(new Individuo(posX, posY));
+      
+      float randomNumber = random(0,1);
+      
+      if(randomNumber <= ProbSick){
+        PeopleSicky.add(new sicky(posX,posY,typeWall));
+      }
+      else{
+        PeopleHealthy.add(new healthy(posX,posY,typeWall));
+      }
     }
     
   
   }
   
   void run(){
-    for(Individuo i : People){
-      i.run();
+    for(sicky s : PeopleSicky){
+      s.run();
+    }
+    
+    for(healthy h : PeopleHealthy){
+      h.run();
     }
   
   }
