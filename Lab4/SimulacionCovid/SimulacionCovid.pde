@@ -1,13 +1,16 @@
 Individuos simuPeople;
+int ticks = 0; //Tiempo global
+int steps = 10; //Número de pasos que se dan antes de cambiar de dirección
 
 void setup() {
   size(1024,1024);
-  int typeWall = 0;
-  simuPeople = new Individuos(300,typeWall);
+  int typeWalk = 1; //Tipo de movimiento: 1 si es coordenadas cartesianas o 2 con coordenadas polares
+  simuPeople = new Individuos(300,typeWalk);
 }
 
 void draw() {
   background(250);
+  ticks = ticks + 1; //Aumenta el tick del tiempo global
   simuPeople.run();
 }
 
@@ -16,50 +19,55 @@ public class Individuo{
   PVector position;
   PVector velocity;
   PVector acceleration;
+  int typeWalk;
   float r;
   int radio = 10;
-  float variance = 0.5;
+  float variance = 1;
   float mean = 0;
-  float angle = random(0,TWO_PI);
-  int s = 1;
+  int s = 2;
   float vectorX;
   float vectorY;
   
   
   // Creando el constructor:
-  Individuo(float posX, float posY, int typeWall){
+  Individuo(float posX, float posY, int typeWalk){
     position = new PVector(posX, posY);
-   
+    this.typeWalk = typeWalk;
     // Para el caso de la aceleración esta, no existe por el momento
     // debido a que no existen fuerzas que actuen en los individuos.
     acceleration = new PVector(0, 0);
-    
-    
-    
-    // Diferentes formas de moverse:
-    
-    // Random Gausiano
-    if(typeWall == 1){
-      // Recordemolos que un distribución Normal es varianza*Z + media
-      vectorX = variance * randomGaussian() + mean;
-      vectorY = variance * randomGaussian() + mean;
-    
-    }
-    // Alternativa 
-    else{
-      
-      vectorX = s * cos(angle);
-      vectorY = s * cos(angle);
-    }
-    
+    velocity = new PVector(0, 0);
     //Dependiendo de la signación de velocidad que se haga, sera el movimiento que se tenga 
-    velocity = new PVector(vectorX, vectorY);
+    //velocity = new PVector(vectorX, vectorY);
 
   }
   
   
+  void walk(){
+    if(ticks % steps != 0){ // Cada steps pasos cambia su dirección
+      return;
+    }
+    
+    // Diferentes formas de moverse:
+    
+    // 1. Random Gausiano
+    if(typeWalk == 1){
+      // Recordemolos que un distribución Normal es varianza*Z + media
+      this.vectorX = variance * randomGaussian() + mean;
+      this.vectorY = variance * randomGaussian() + mean;
+    
+    }
+    // 2. Alternativa 
+    else{
+      float angle = random(0,TWO_PI);
+      this.vectorX = s * cos(angle);
+      this.vectorY = s * sin(angle);
+    }
+  }
+  
   void update(){
-    position.add(velocity);
+    walk();
+    position.add(vectorX, vectorY);
   }
   
   
@@ -76,9 +84,9 @@ public class Individuo{
 public class healthy extends Individuo{
 
   
-  healthy(float posX,float posY,int typeWall){
+  healthy(float posX,float posY,int typeWalk){
     
-    super(posX,posY, typeWall);
+    super(posX,posY, typeWalk);
     
   
   }
@@ -102,9 +110,9 @@ public class healthy extends Individuo{
 
 public class sicky extends Individuo{
 
-  sicky(float posX,float posY, int typeWall){
+  sicky(float posX,float posY, int typeWalk){
     
-    super(posX,posY,typeWall);
+    super(posX,posY,typeWalk);
   
   }
    
@@ -133,7 +141,7 @@ public class Individuos{
   ArrayList<healthy> PeopleHealthy;
   float ProbSick = 0.1;
   
-  Individuos(int sizePeople,int typeWall){
+  Individuos(int sizePeople,int typeWalk){
   
     PeopleSicky = new ArrayList<sicky>();
     PeopleHealthy = new ArrayList<healthy>();
@@ -146,10 +154,10 @@ public class Individuos{
       float randomNumber = random(0,1);
       
       if(randomNumber <= ProbSick){
-        PeopleSicky.add(new sicky(posX,posY,typeWall));
+        PeopleSicky.add(new sicky(posX,posY,typeWalk));
       }
       else{
-        PeopleHealthy.add(new healthy(posX,posY,typeWall));
+        PeopleHealthy.add(new healthy(posX,posY,typeWalk));
       }
     }
     
@@ -164,7 +172,6 @@ public class Individuos{
     for(healthy h : PeopleHealthy){
       h.run();
     }
-  
   }
   
   
