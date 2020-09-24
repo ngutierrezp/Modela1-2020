@@ -1,11 +1,13 @@
 Individuos simuPeople;
 int ticks = 0; //Tiempo global
 int steps = 10; //Número de pasos que se dan antes de cambiar de dirección
+float pEnfermos = 0.5;
+float pMaskOn = 0.5;
 
 void setup() {
   size(1024,1024);
   int typeWalk = 1; //Tipo de movimiento: 1 si es coordenadas cartesianas o 2 con coordenadas polares
-  simuPeople = new Individuos(300,typeWalk);
+  simuPeople = new Individuos(300, pEnfermos, pMaskOn, typeWalk);
 }
 
 void draw() {
@@ -20,6 +22,7 @@ public class Individuo{
   PVector velocity;
   PVector acceleration;
   int typeWalk;
+  boolean maskOn;
   float r;
   int radio = 10;
   float variance = 1;
@@ -30,9 +33,10 @@ public class Individuo{
   
   
   // Creando el constructor:
-  Individuo(float posX, float posY, int typeWalk){
+  Individuo(float posX, float posY, int typeWalk, boolean mask){
     position = new PVector(posX, posY);
     this.typeWalk = typeWalk;
+    maskOn = mask;
     // Para el caso de la aceleración esta, no existe por el momento
     // debido a que no existen fuerzas que actuen en los individuos.
     acceleration = new PVector(0, 0);
@@ -81,12 +85,13 @@ public class Individuo{
 }
 
 
-public class healthy extends Individuo{
+public class Healthy extends Individuo{
 
+  color fillColor = #32cd32;
   
-  healthy(float posX,float posY,int typeWalk){
+  Healthy(float posX,float posY,int typeWalk, boolean maskOn){
     
-    super(posX,posY, typeWalk);
+    super(posX,posY, typeWalk, maskOn);
     
   
   }
@@ -94,7 +99,9 @@ public class healthy extends Individuo{
     stroke(100);
     circle(position.x, position.y, radio);
     // Para sano se pone un color verde
-    fill(50, 205,50);
+    fill(fillColor);
+    arc(position.x, position.y, radio, radio, PI, OPEN);
+    fill(#FFFFFF);
   }
   
     void run(){
@@ -108,11 +115,12 @@ public class healthy extends Individuo{
 
 
 
-public class sicky extends Individuo{
+public class Sick extends Individuo{
 
-  sicky(float posX,float posY, int typeWalk){
-    
-    super(posX,posY,typeWalk);
+  color fillColor = #cb3234;
+  
+  Sick(float posX,float posY, int typeWalk, boolean maskOn){
+    super(posX,posY,typeWalk, maskOn);
   
   }
    
@@ -120,7 +128,30 @@ public class sicky extends Individuo{
     stroke(100);
     circle(position.x, position.y, radio);
     // Para enfermos se pone un rojo
-    fill(203, 50,52); 
+    fill(fillColor); 
+  }
+  
+  void run(){
+     update();
+     borders();
+     render();
+  }
+}
+
+
+public class Recovered extends Individuo{
+
+  color fillColor = #3232cd;
+  
+  Recovered(float posX,float posY, int typeWalk, boolean maskOn){
+    super(posX,posY,typeWalk, maskOn);
+  }
+   
+  void render() {
+    stroke(100);
+    circle(position.x, position.y, radio);
+    // Para enfermos se pone un rojo
+    fill(fillColor); 
   }
   
   void run(){
@@ -137,39 +168,46 @@ public class sicky extends Individuo{
 
 public class Individuos{
   
-  ArrayList<sicky> PeopleSicky;
-  ArrayList<healthy> PeopleHealthy;
-  float ProbSick = 0.1;
+  ArrayList<Sick> PeopleSick;
+  ArrayList<Healthy> PeopleHealthy;
+  float ProbSick;
+  float ProbMaskOn;
   
-  Individuos(int sizePeople,int typeWalk){
+  Individuos(int sizePeople, float probSick, float probMaskOn, int typeWalk){
   
-    PeopleSicky = new ArrayList<sicky>();
-    PeopleHealthy = new ArrayList<healthy>();
+    ProbSick = probSick;
+    ProbMaskOn = probMaskOn;
+    PeopleSick = new ArrayList<Sick>();
+    PeopleHealthy = new ArrayList<Healthy>();
     
     for (int i = 0; i < sizePeople; i++) {
       
       float posX = random(0,1024);
       float posY = random(0,1024);
       
-      float randomNumber = random(0,1);
+      float randSick = random(0,1);
+      float randMask = random(0,1);
       
-      if(randomNumber <= ProbSick){
-        PeopleSicky.add(new sicky(posX,posY,typeWalk));
+      boolean usesMask = (randMask <= ProbMaskOn) ? true: false;
+      
+      if(randSick <= ProbSick){
+        PeopleSick.add(new Sick(posX, posY, typeWalk, usesMask));
       }
       else{
-        PeopleHealthy.add(new healthy(posX,posY,typeWalk));
+        PeopleHealthy.add(new Healthy(posX, posY, typeWalk, usesMask));
       }
+      
     }
     
   
   }
   
   void run(){
-    for(sicky s : PeopleSicky){
+    for(Sick s : PeopleSick){
       s.run();
     }
     
-    for(healthy h : PeopleHealthy){
+    for(Healthy h : PeopleHealthy){
       h.run();
     }
   }
