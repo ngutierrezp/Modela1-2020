@@ -7,6 +7,7 @@ float pTransmission = 0.05;
 int radius = 10;
 float minDistance = radius;
 float socialDistancing = 50;
+int recoverCicle = 500;
 
 void setup() {
   size(1024,1024);
@@ -303,6 +304,11 @@ public class Individuos{
     Individuo objB;
     for(int i = 0; i < entities; i++){
       objA = individuos.get(i);
+      
+      if(objA instanceof Sick){
+        checkRecovery(objA);
+      }
+      
       for(int j = i+1; j < entities; j++){
         objB = individuos.get(j);
         objA.checkCollision(objB);
@@ -313,6 +319,15 @@ public class Individuos{
       }else if(objA instanceof Sick){
         ((Sick) objA).run();
       }
+    }
+  }
+  
+  void checkRecovery(Individuo entity){
+    int count = ((Sick) entity).recoverCount;
+    if( count == recoverCicle ){
+      ((Sick) entity).fillColor = #3232cd;
+      //Recovered r = new Recovered(obj.position.x, obj.position.y, obj.maskOn);
+      //individuos.set(i, r);
     }
   }
   
