@@ -1,3 +1,19 @@
+/*
+  ######################
+  # CLASE INDIVIDUOS
+  ######################
+  
+  La clase individuos representa a un arreglo de muchas personas
+  que pueden estar enfermas, sanas y recuperadas.
+
+
+
+
+
+
+
+*/
+
 public class Individuos{
   
   ArrayList<Individuo> individuos;
@@ -8,6 +24,12 @@ public class Individuos{
   float socialDistance;
   float probTransmission;
   
+  /*
+    Constructor: 
+    En el constructor de la clase se asegura que al momento de colocar a las personas, 
+    estas no queden unas sobre otras.
+  
+  */
   Individuos(int sizePeople, float probSick, float pInHouse, float probMaskOn, float pTransmission, float socialDistance){
     this.probHome = pInHouse;
     this.probTransmission = pTransmission;
@@ -28,7 +50,7 @@ public class Individuos{
       PVector pos = new PVector(random(0,1024),random(0,1024));
       
       //Generate random position until it finds an empty space (non-collision)
-      while(testInitialCollision(pos)){
+      while(testInitialCollision(pos)){ 
         pos = new PVector(random(0,1024),random(0,1024));
       }
       
@@ -59,7 +81,21 @@ public class Individuos{
       }
     }
   }
+  /*
+    ACTION: 
+    
+      Se verifica primeramente si una persona enferma
+      se ha recuperado o no.
+      
+      Luego:
+      Se intera por individuos preguntando si se 
+      encuentra en casa o no. De estar en casa este
+      este se ignora para la interacción con los demás
+      individuos. Si no está en casa, este se verifica
+      si existen personas cercanas para contagiar o ser
+      contagiado dada la probabilidad anterior. 
   
+  */
   void actions(){
     Individuo objA;
     Individuo objB;
@@ -87,6 +123,17 @@ public class Individuos{
   }
   
   
+  /*
+    CHECKRECOVERY: 
+    
+      Se pregunta si una persona se ha recuperado.
+      En el caso de que se recupere, se hace un
+      cambio de clase pasando de enfermo -> recuperado
+                                  (Sick)    (Recovered)
+  */
+  
+  
+  
   void checkRecovery(int index, Individuo entity){
     int count = ((Sick) entity).recoverCount;
     if( count == maxTiempoEnfermo ){
@@ -95,6 +142,14 @@ public class Individuos{
     }
   }
   
+  
+  /*
+    TESTINITIALCOLLISION: 
+    
+      Se pregunta si exite un individuo en la posición
+      dada, en caso de que exista un individuo en dicha
+      posición, no se podria colocar otro individuo en esta.
+  */
   boolean testInitialCollision(PVector pos){
     
     for(Individuo other : individuos){
@@ -108,6 +163,21 @@ public class Individuos{
     return false;
   }
   
+  
+  
+  /*
+    GETSINFECTED: 
+    
+      Se establece las probabilidades de transmisión dado lo siguiente:
+      
+        - Enfermo con mascarilla -> Sano con mascarilla = 25% (1/4) por la probabilidad de contagio
+        - Enfermo con mascarilla -> Sano sin mascarilla = 50% (1/2) por la probabilidad de contagio
+        - Enfermo sin mascarilla -> Sano con mascarilla = 33% (1/3) por la probabilidad de contagio
+        - Enfermo sin mascarilla -> Sano sin mascarilla = 100% (1)  por la probabilidad de contagio
+        
+        
+     Y se verifica si se ha contagiado o no una persona.
+  */
   boolean getsInfected(boolean healthyMaskOn, boolean sickMaskOn, float randTransmission){
     float pInfection;
     if(healthyMaskOn && sickMaskOn){
@@ -126,7 +196,14 @@ public class Individuos{
     return false;
   }
   
-  
+  /*
+    INFECTION: 
+    
+      Se itera a los individuos preguntando si existe una interacción que involucre 
+      contagio, de existir esta. Se hace un cambio de clase pasando de 
+      una persona enferma -> sana
+                  (Sick)   (Healthy)
+  */
   void infection(boolean maskOn, PVector pos){
     
     for(int i = 0; i<entities; i++){
@@ -145,26 +222,5 @@ public class Individuos{
       }
     }
   }
-  
-  
-  /*
-  //Testing collision without change in velocity
-  //https://forum.processing.org/one/topic/simple-collision-detection.html
-  void checkCollision2(Individuo a, Individuo b){
-    float dx = b.position.x - a.position.x;
-    float dy = b.position.y - a.position.y;
-    float d = sqrt(sq(dx)+sq(dy)); // distance between balls
-    if (d < minDistance) {
-      // The two balls are colliding.
-      float mag1 = sqrt(sq(a.velocity.x)+sq(a.velocity.y));
-      float mag2 = sqrt(sq(b.velocity.x)+sq(b.velocity.y));
-      b.velocity.x = (mag1*dx/d); //*a.drag;
-      b.velocity.y = (mag1*dy/d); //*a.drag;
-      a.velocity.x = -(mag2*dx/d); //*b.drag;
-      a.velocity.y = -(mag2*dy/d); //*b.drag;
-      
-    }
-  }*/
-   
-  
+
 }
