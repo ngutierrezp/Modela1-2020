@@ -30,19 +30,19 @@ Individuos simuPeople;
   - Enfermo sin mascarilla -> Sano sin mascarilla = 100% por la probabilidad de contagio
 
   #########################
-  # Constantes:
+  # Constantes: Entrega 1
   #########################
 */
 
 float pEnfermos = 0.3;                    // Probabilidad de enfermos
-float pMaskOn = 0.8;                       // Probabilidad de mascarillas
+float pMaskOn = 0; // Sin mascarillas     // Probabilidad de mascarillas
 float pTransmission = 0.5;                // Probabilidad de transmisición
 int radius = 8;                            // Radio de las pelotitas
-float vel = 2.0;                           // Multiplicativo de velocidad (ponderación)
+float vel = 1.0;                           // Multiplicativo de velocidad (ponderación)
 float minDistance = 2*radius;              // Distancia minima de interacción
 float socialDistancing = 1.5*minDistance;  // Distancia maxima de contagio
 int maxTiempoEnfermo = 500;                // Tiempo maximo que dura el contagio
-float pInHouse = 0.1;                      // Probabilidad de personas en Casa
+float pInHouse = 0; // Todos se mueven     // Probabilidad de personas en Casa
 
 
 
