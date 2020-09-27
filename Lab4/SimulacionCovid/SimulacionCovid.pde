@@ -1,11 +1,12 @@
 Individuos simuPeople;
 int ticks = 0; //Tiempo global
 // int steps = 10; //Número de pasos que se dan antes de cambiar de dirección
-float pEnfermos = 0.1;
+float pEnfermos = 0.05;
 float pMaskOn = 0.8;
 float pTransmission = 0.05;
-int radius = 10;
-float minDistance = radius;
+int radius = 8;
+float vel = 1.0;
+float minDistance = 2*radius;
 float socialDistancing = 1.5*minDistance;
 int maxTiempoEnfermo = 500;
 float pInHouse = 0.1;
