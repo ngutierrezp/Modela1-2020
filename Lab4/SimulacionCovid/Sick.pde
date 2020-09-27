@@ -1,12 +1,24 @@
+/*
+  ######################
+  # CLASE SICK         #
+  ######################
+  
+  Clase que representa a las personas enfermas
+
+*/
+
 public class Sick extends Individuo{
 
   color fillColor = #cb3234;
+  
+  // Contador para el tiempo que lleva siendo enfermo
   int recoverCount = 0;
   
   Sick(float posX,float posY, boolean maskOn, boolean inHome){
     super(posX,posY, maskOn, inHome);
   }
   
+  // Constructor para crear un agente enfermo a partir de un agente sano (fue contagiado)
   Sick(Healthy h){
     super(h.position, h.velocity, h.maskOn, h.inHome);
   }

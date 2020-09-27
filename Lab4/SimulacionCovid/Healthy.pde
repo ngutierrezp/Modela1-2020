@@ -1,12 +1,23 @@
+/*
+  ######################
+  # CLASE HEALTHY      #
+  ######################
+  
+  Clase que representa a las personas sanas
+
+*/
+
 public class Healthy extends Individuo{
 
+  // Color verde
   color fillColor = #32cd32;
+  
   
   Healthy(float posX,float posY, boolean maskOn, boolean inHome){
     super(posX,posY, maskOn, inHome);
   }
   
-  
+  // Render dibuja el círculo para los agentes sanos. Le agrega una mascarilla en caso de tenerla
   void render() {
     stroke(100);
     fill(fillColor);

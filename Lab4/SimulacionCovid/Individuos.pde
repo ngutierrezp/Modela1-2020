@@ -6,12 +6,6 @@
   La clase individuos representa a un arreglo de muchas personas
   que pueden estar enfermas, sanas y recuperadas.
 
-
-
-
-
-
-
 */
 
 public class Individuos{

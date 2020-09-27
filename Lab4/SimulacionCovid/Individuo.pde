@@ -1,3 +1,11 @@
+/*
+  ######################
+  # CLASE INDIVIDUO    #
+  ######################
+  
+  Clase que representa a todo agente (clase padre)
+
+*/
 public class Individuo{
   
   PVector position;
@@ -8,24 +16,36 @@ public class Individuo{
   float vel_mag = vel;
   float m = radius*5;
   
-  Individuo(PVector pos, PVector vel, boolean mask, boolean inHome){
-    this.position = pos;
-    this.velocity = vel;
-    this.maskOn = mask;
-    this.inHome = inHome;
-    
-  }
-  
-  
-  // Creando el constructor:
+  /*
+    Constructor:
+      
+      Utilizado al inicializar el programa
+  */
   Individuo(float posX, float posY, boolean mask, boolean inHome){
     this.position = new PVector(posX, posY);
     this.maskOn = mask;
     this.inHome = inHome;
-    this.velocity = (this.inHome)? new PVector(0,0): PVector.random2D();
+    this.velocity = (this.inHome)? new PVector(0,0): PVector.random2D().mult(vel_mag);
   }
   
   
+  /*
+    Constructor:
+      
+      Utilizado al hacer cambios de clase (Healthy -> Sick -> Recovered)
+  */
+  Individuo(PVector pos, PVector vel, boolean mask, boolean inHome){
+    this.position = pos;
+    this.velocity = vel;
+    this.maskOn = mask;
+    this.inHome = inHome; 
+  }
+  
+  /*
+    WALK:
+     
+     Cambia la posición del agente en la dirección de la velocidad 
+  */
   void walk(){
     position.add(velocity);
   }
@@ -35,6 +55,13 @@ public class Individuo{
   }
   
   
+  /*
+    BORDERS:
+      
+      Quita los bordes del canvas, haciendo que los agentes aparezcan del lado opuesto
+      del canvas al superar los limites de éste
+  
+  */
   void borders() {
     if (position.x < -radio) position.x = width+radio;
     if (position.y < -radio) position.y = height+radio;
@@ -42,6 +69,20 @@ public class Individuo{
     if (position.y > height+radio) position.y = -radio;
   }
   
+  
+  /*
+    CHECKCOLLISION:
+      
+      Verifica si un individuo "choca" con otro, es decir si se encuentran
+      a una mínima distancia entre la posición de cada uno.
+      En caso de dectectar la colisión, modifica la dirección y magnitud de 
+      las velocidades de cada agente en base al instante antes del choque
+      
+      Nota: El algoritmo fue adaptado de https://processing.org/examples/circlecollision.html
+      Este algoritmo originalmente presentaba algunos problemas al ajustar la velocidad luego de la colisión
+      Se redujo el significativamente efecto de este problema, pero aún persiste ocasionalmente.
+      El resto del algoritmo se mantuvo sin cambios.
+  */
   void checkCollision(Individuo other) {
     // Get distances between the balls components
     PVector distanceVect = PVector.sub(other.position, position);
@@ -50,7 +91,8 @@ public class Individuo{
     float distanceVectMag = distanceVect.mag();
 
     if (distanceVectMag <= minDistance) {
-      float distanceCorrection = (minDistance-distanceVectMag)/20;
+      float distanceCorrection = 0.1*(minDistance-distanceVectMag)/2.0;
+      //*** NOTA: La corrección fue multiplicada por 0.1 para reducir el efecto del problema de colisión ***
       PVector d = distanceVect.copy();
       PVector correctionVector = d.normalize().mult(distanceCorrection);
       other.position.add(correctionVector);

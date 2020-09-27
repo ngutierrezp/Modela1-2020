@@ -25,8 +25,8 @@ Individuos simuPeople;
   las siguientes probabilidades respecto a los contagios:
   
   - Enfermo con mascarilla -> Sano con mascarilla = 25% por la probabilidad de contagio
-  - Enfermo con mascarilla -> Sano sin mascarilla = 50% por la probabilidad de contagio
   - Enfermo sin mascarilla -> Sano con mascarilla = 33% por la probabilidad de contagio
+  - Enfermo con mascarilla -> Sano sin mascarilla = 50% por la probabilidad de contagio
   - Enfermo sin mascarilla -> Sano sin mascarilla = 100% por la probabilidad de contagio
 
   #########################
@@ -57,7 +57,6 @@ void setup() {
 
 /*
  Bucle de simulación
-
 */
 
 
