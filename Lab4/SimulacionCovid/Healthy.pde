@@ -2,8 +2,8 @@ public class Healthy extends Individuo{
 
   color fillColor = #32cd32;
   
-  Healthy(float posX,float posY, boolean maskOn){
-    super(posX,posY, maskOn);
+  Healthy(float posX,float posY, boolean maskOn, boolean inHome){
+    super(posX,posY, maskOn, inHome);
   }
   
   

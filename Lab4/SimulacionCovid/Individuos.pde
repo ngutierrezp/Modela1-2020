@@ -1,22 +1,29 @@
 public class Individuos{
   
   ArrayList<Individuo> individuos;
-  float ProbSick;
-  float ProbMaskOn;
+  float probSick;
+  float probMaskOn;
+  float probHome;
   int entities;
+  float socialDistance;
+  float probTransmission;
   
-  Individuos(int sizePeople, float probSick, float probMaskOn){
-  
-    entities = sizePeople;
-    ProbSick = probSick;
-    ProbMaskOn = probMaskOn;
-    individuos = new ArrayList<Individuo>();
+  Individuos(int sizePeople, float probSick, float pInHouse, float probMaskOn, float pTransmission, float socialDistance){
+    this.probHome = pInHouse;
+    this.probTransmission = pTransmission;
+    this.socialDistance = socialDistance;  
+    this.entities = sizePeople;
+    this.probSick = probSick;
+    this.probMaskOn = probMaskOn;
+    this.individuos = new ArrayList<Individuo>();
     
     for (int i = 0; i < sizePeople; i++) {
       
       float randSick = random(0,1);
       float randMask = random(0,1);
-      boolean usesMask = (randMask <= ProbMaskOn) ? true: false;
+      float randHome = random(0,1);
+      boolean usesMask = (randMask <= probMaskOn) ? true: false;
+      boolean inHome = (randHome <= probHome) ? true: false;
       
       PVector pos = new PVector(random(0,1024),random(0,1024));
       
@@ -25,11 +32,11 @@ public class Individuos{
         pos = new PVector(random(0,1024),random(0,1024));
       }
       
-      if(randSick <= ProbSick){
-        individuos.add(new Sick(pos.x, pos.y, usesMask));
+      if(randSick <= probSick){
+        individuos.add(new Sick(pos.x, pos.y, usesMask, inHome));
       }
       else{
-        individuos.add(new Healthy(pos.x, pos.y, usesMask));
+        individuos.add(new Healthy(pos.x, pos.y, usesMask, inHome));
       }
       
     }
@@ -37,6 +44,23 @@ public class Individuos{
   }
   
   void run(){
+    processCollisions();
+    move();
+  }
+  
+  void move(){
+    for(Individuo i : individuos){
+      if(i instanceof Healthy){
+          ((Healthy) i).run();
+      }else if(i instanceof Sick){
+          ((Sick) i).run();
+      }else if(i instanceof Recovered){
+        ((Recovered) i).run();
+      }
+    }
+  }
+  
+  void processCollisions(){
     Individuo objA;
     Individuo objB;
     for(int i = 0; i < entities; i++){
@@ -44,24 +68,21 @@ public class Individuos{
       
       if(objA instanceof Sick){
         checkRecovery(objA);
+        infection(objA.position);
       }
       
       for(int j = i+1; j < entities; j++){
         objB = individuos.get(j);
+        if(objB.inHome) continue;
         objA.checkCollision(objB);
-      }
-      
-      if(objA instanceof Healthy){
-        ((Healthy) objA).run();
-      }else if(objA instanceof Sick){
-        ((Sick) objA).run();
       }
     }
   }
   
+  
   void checkRecovery(Individuo entity){
     int count = ((Sick) entity).recoverCount;
-    if( count == recoverCicle ){
+    if( count == maxTiempoEnfermo ){
       ((Sick) entity).fillColor = #3232cd;
       //Recovered r = new Recovered(obj.position.x, obj.position.y, obj.maskOn);
       //individuos.set(i, r);
@@ -80,6 +101,24 @@ public class Individuos{
     }
     return false;
   }
+  
+  void infection(PVector pos){
+    
+    for(Individuo other : individuos){
+      if((other instanceof Healthy) && !other.inHome){
+        PVector distanceVect = PVector.sub(pos, other.position);
+        // Calculate magnitude of the vector separating the balls
+        float distanceVectMag = distanceVect.mag();
+        if(distanceVectMag < socialDistance){
+          float randTransmission = random(0,1);
+          if(randTransmission <= pTransmission){
+            ((Healthy)other).fillColor = #ebd834;
+          }
+        } 
+      }
+    }
+  }
+  
   
   /*
   //Testing collision without change in velocity
@@ -110,6 +149,7 @@ public class Individuo{
   PVector acceleration;
   int typeWalk;
   boolean maskOn;
+  boolean inHome;
   float r;
   int radio = radius;
   float variance = 1;
@@ -121,14 +161,15 @@ public class Individuo{
   
   
   // Creando el constructor:
-  Individuo(float posX, float posY, boolean mask){
+  Individuo(float posX, float posY, boolean mask, boolean inHome){
     position = new PVector(posX, posY);
     maskOn = mask;
+    this.inHome = inHome;
     m = radius*0.1;
     // Para el caso de la aceleración esta, no existe por el momento
     // debido a que no existen fuerzas que actuen en los individuos.
     acceleration = new PVector(0, 0);
-    velocity = PVector.random2D();
+    velocity = (this.inHome)? new PVector(0,0): PVector.random2D();
   }
   
   
@@ -149,7 +190,6 @@ public class Individuo{
   }
   
   void checkCollision(Individuo other) {
-
     // Get distances between the balls components
     PVector distanceVect = PVector.sub(other.position, position);
 

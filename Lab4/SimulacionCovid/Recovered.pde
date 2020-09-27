@@ -2,8 +2,8 @@ public class Recovered extends Individuo{
 
   color fillColor = #3232cd;
   
-  Recovered(float posX,float posY, boolean maskOn){
-    super(posX,posY, maskOn);
+  Recovered(float posX,float posY, boolean maskOn, boolean inHome){
+    super(posX,posY, maskOn, inHome);
   }
    
   void render() {

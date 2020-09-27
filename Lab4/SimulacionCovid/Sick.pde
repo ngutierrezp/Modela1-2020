@@ -3,8 +3,8 @@ public class Sick extends Individuo{
   color fillColor = #cb3234;
   int recoverCount = 0;
   
-  Sick(float posX,float posY, boolean maskOn){
-    super(posX,posY, maskOn);
+  Sick(float posX,float posY, boolean maskOn, boolean inHome){
+    super(posX,posY, maskOn, inHome);
   }
    
   void render() {
