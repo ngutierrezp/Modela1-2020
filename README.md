@@ -21,6 +21,8 @@ Para los laboratorios 1, 2 y 3 se ha utilizado MATLAB como lenguaje de programac
 
 ## Listado de Informes
 
+Los informes fueron realizados en overleaf con la plantilla de tesis estandar.
+
 - Laboratorio 1 : [Introducción a MATLAB](https://es.overleaf.com/read/qsxjvqdbkpnz)
 - Laboratorio 2 : [Análisis de Sistemas](https://es.overleaf.com/read/dwybcxyrbtrz)
 - Laboratorio 3 : [Modelos de estados](https://es.overleaf.com/read/fzjyyztcxjyv)
